@@ -133,7 +133,12 @@ async def lifespan(app: FastAPI):
                 cred = credentials.Certificate(str(local_key))
                 logger.info("Firebase Admin SDK: using %s", local_key)
             else:
-                logger.info("Firebase Admin SDK: initializing without credentials (relies on projectId for token verification or ADC)")
+                logger.info("Firebase Admin SDK: using AnonymousCredentials (relies on projectId for token verification)")
+                from google.auth.credentials import AnonymousCredentials
+                class DummyCred(credentials.Base):
+                    def get_credential(self):
+                        return AnonymousCredentials()
+                cred = DummyCred()
 
         firebase_admin.initialize_app(cred, options={"projectId": settings.firebase_project_id})
         logger.info("Firebase Admin SDK initialized.")
