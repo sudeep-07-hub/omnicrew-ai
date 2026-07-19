@@ -166,7 +166,11 @@ app.include_router(diagnostics_router)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "http://localhost:5173",
+        "https://omnicrew-ai-2026.web.app",
+        "https://omnicrew-ai-2026.firebaseapp.com",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
