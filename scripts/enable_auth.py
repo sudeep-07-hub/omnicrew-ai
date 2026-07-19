@@ -1,6 +1,5 @@
 import google.auth
 from google.auth.transport.requests import AuthorizedSession
-import json
 
 credentials, project = google.auth.default(scopes=['https://www.googleapis.com/auth/cloud-platform'])
 authed_session = AuthorizedSession(credentials)

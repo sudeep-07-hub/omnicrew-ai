@@ -1,4 +1,4 @@
-from firebase_functions import https_fn, options, params
+from firebase_functions import https_fn, params
 from a2wsgi import ASGIMiddleware
 from app.main import app as fastapi_app
 

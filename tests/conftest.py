@@ -13,6 +13,8 @@ from typing import Any
 from unittest.mock import MagicMock
 from datetime import datetime, timezone
 
+from app.dependencies import StaffUser
+
 import pytest
 import pytest_asyncio
 from httpx import ASGITransport, AsyncClient
@@ -234,8 +236,6 @@ def sample_filtered_telemetry() -> FilteredTelemetry:
 
 
 # ── Auth Helpers ────────────────────────────────────────────────────────
-
-from app.dependencies import StaffUser, verify_firebase_token
 
 
 def _make_mock_auth(role: str = "medic", gate: str = "Gate-A"):
