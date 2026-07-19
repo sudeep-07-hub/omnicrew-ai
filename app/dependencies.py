@@ -175,6 +175,9 @@ async def rate_limit(
 # ── LLM Factory ─────────────────────────────────────────────────────────
 
 
+from functools import lru_cache
+
+@lru_cache()
 def get_llm() -> Any:
     """Create and return an instrumented ``ChatGoogleGenerativeAI`` instance.
 

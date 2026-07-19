@@ -11,7 +11,7 @@ from __future__ import annotations
 from functools import lru_cache
 from typing import Any
 
-from pydantic import Field, SecretStr, field_validator
+from pydantic import Field, SecretStr, field_validator, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -108,6 +108,15 @@ class Settings(BaseSettings):
             return [r.strip() for r in v.split(",") if r.strip()]
         return v  # type: ignore[return-value]
 
+    @model_validator(mode="after")
+    def _warn_default_hmac(self) -> "Settings":
+        if self.hmac_secret == "omnicrew-dev-secret":
+            import logging
+            logging.getLogger(__name__).warning(
+                "SECURITY WARNING: Using the default HMAC secret! "
+                "This is insecure. Set the HMAC_SECRET environment variable in production."
+            )
+        return self
 
 @lru_cache(maxsize=1)
 def get_settings() -> Settings:

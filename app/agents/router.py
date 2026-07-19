@@ -205,12 +205,15 @@ def should_continue(state: RouterState) -> Literal["execute_tools", "synthesize"
 # ── Graph Builder ───────────────────────────────────────────────────────
 
 
-def build_router_graph(llm: Any, tools: list | None = None):
+from functools import lru_cache
+
+@lru_cache(maxsize=1)
+def build_router_graph(llm: Any, tools: tuple | None = None):
     """Build and compile the LangGraph intent-routing graph.
 
     Args:
         llm: A LangChain chat model instance (must support ``.bind_tools``).
-        tools: List of tool functions.  Defaults to ``ALL_TOOLS``.
+        tools: Tuple of tool functions.  Defaults to ``ALL_TOOLS``.
 
     Returns:
         A compiled ``StateGraph`` ready for ``.invoke()`` / ``.ainvoke()``.
