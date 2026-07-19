@@ -118,6 +118,7 @@ async def lifespan(app: FastAPI):
     # Initialize Firebase Admin SDK with explicit credentials for local dev.
     # On GCP infrastructure (Cloud Run / Cloud Functions), ADC works automatically.
     # Locally, we need the service account key file.
+    settings = get_settings()
     if not firebase_admin._apps:
         cred = None
         # 1. Check GOOGLE_APPLICATION_CREDENTIALS env var
@@ -132,12 +133,11 @@ async def lifespan(app: FastAPI):
                 cred = credentials.Certificate(str(local_key))
                 logger.info("Firebase Admin SDK: using %s", local_key)
             else:
-                logger.info("Firebase Admin SDK: using Application Default Credentials")
+                logger.info("Firebase Admin SDK: initializing without credentials (relies on projectId for token verification or ADC)")
 
-        firebase_admin.initialize_app(cred)
+        firebase_admin.initialize_app(cred, options={"projectId": settings.firebase_project_id})
         logger.info("Firebase Admin SDK initialized.")
 
-    settings = get_settings()
     consumer = await start_background_consumer(settings)
     set_edge_consumer(consumer)
     logger.info("OmniCrew AI started — edge consumer active.")
