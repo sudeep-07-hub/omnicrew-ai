@@ -235,14 +235,18 @@ async def query_endpoint(
         edge_context = TelemetryFilter.compress_context(telemetry)
 
     # Run through the LangGraph router.
-    result = await run_query(
-        query=request_data.query,
-        language=request_data.language,
-        role=user.role,
-        location=request_data.location,
-        edge_telemetry=edge_context,
-        llm=llm,
-    )
+    try:
+        result = await run_query(
+            query=request_data.query,
+            language=request_data.language,
+            role=user.role,
+            location=request_data.location,
+            edge_telemetry=edge_context,
+            llm=llm,
+        )
+    except Exception as exc:
+        logger.exception("Error during LLM routing/execution:")
+        raise HTTPException(status_code=500, detail=f"LLM Routing Error: {type(exc).__name__} - {str(exc)}")
 
     # Include telemetry snapshot for command-center users.
     telem_out = edge_snapshot if user.role == "command-center" else None
