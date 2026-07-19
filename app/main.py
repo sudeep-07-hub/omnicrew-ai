@@ -191,6 +191,13 @@ async def request_timing_middleware(request: Request, call_next) -> Response:
 # ── Routes ──────────────────────────────────────────────────────────────
 
 
+@app.get("/", tags=["ops"])
+async def root():
+    """Redirect root to API documentation."""
+    from fastapi.responses import RedirectResponse
+    return RedirectResponse(url="/docs")
+
+
 @app.get("/health", response_model=HealthResponse, tags=["ops"])
 async def health() -> HealthResponse:
     """Lightweight health check — no auth required."""
