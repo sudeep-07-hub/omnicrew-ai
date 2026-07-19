@@ -9,6 +9,17 @@ OmniCrew AI enables ground staff — medics, ushers, security, and command-cente
 - **Web Application**: [https://omnicrew-ai-2026.web.app](https://omnicrew-ai-2026.web.app)
 - **API Documentation**: [https://omnicrew-ai.onrender.com/docs](https://omnicrew-ai.onrender.com/docs)
 
+### Test Accounts
+
+Use any of these pre-configured accounts to log in and test the different agent personas:
+
+| Email | Password | Role / Location |
+| :--- | :--- | :--- |
+| `medic@omnicrew.test` | `OmniMedic2026!` | 🏥 Medic (Gate-A) |
+| `usher@omnicrew.test` | `OmniUsher2026!` | 🎫 Usher (Gate-C) |
+| `security@omnicrew.test` | `OmniSecurity2026!` | 🛡️ Security (Gate-B) |
+| `cmdctr@omnicrew.test` | `OmniCommand2026!` | 📡 Command Center (HQ) |
+
 ## Project Structure
 
 - `app/`: FastAPI backend and LangGraph agents.
