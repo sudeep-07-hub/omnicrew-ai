@@ -1,0 +1,12 @@
+tests/
+scripts/
+__pycache__/
+.git/
+.env
+.pytest_cache/
+*.pyc
+README.md
+public/
+firebase.json
+.firebaserc
+cloudbuild.yaml

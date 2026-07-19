@@ -1,0 +1,27 @@
+steps:
+  # 1. Build the container image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/omnicrew-api', '.']
+
+  # 2. Push the container image to Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/omnicrew-api']
+
+  # 3. Deploy to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'omnicrew-api'
+      - '--image'
+      - 'gcr.io/$PROJECT_ID/omnicrew-api'
+      - '--region'
+      - 'us-central1'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+      - '--set-secrets=OMNICREW_GOOGLE_API_KEY=GEMINI_API_KEY:latest,OMNICREW_API_KEYS_JSON=OMNICREW_API_KEYS_JSON:latest'
+
+images:
+  - 'gcr.io/$PROJECT_ID/omnicrew-api'
